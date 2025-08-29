@@ -7,6 +7,7 @@
   <groupId>dev.vepo</groupId>
   <artifactId>piaui-db</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
   <name>Piaui DB</name>
   <url>https://blog.vepo.dev</url>
@@ -19,9 +20,17 @@
     <jacoco.version>0.8.13</jacoco.version>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+    <sonar.coverage.jacoco.xmlReportPaths>
+      ${maven.multiModuleProjectDirectory}/test-coverage/target/site/jacoco-aggregate/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
     <sonar.language>java</sonar.language>
   </properties>
+
+  <modules>
+    <module>core</module>
+    <module>benchmark</module>
+    <module>test-coverage</module>
+  </modules>
 
   <dependencyManagement>
     <dependencies>
@@ -105,25 +114,21 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
         </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
         <executions>
           <execution>
-            <id>jacoco-initialize</id>
             <goals>
               <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>jacoco-site</id>
-            <phase>package</phase>
-            <goals>
-              <goal>report</goal>
             </goals>
           </execution>
         </executions>
