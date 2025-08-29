@@ -21,11 +21,11 @@ public class PiauiDB implements AutoCloseable {
         try {
             var store = Files.getFileStore(Paths.get(path));
             if (store.isReadOnly()) {
-                throw new PiauiDBException();
+                throw new PiauiDBException("File system is read only!");
             }
             return new PiauiDB(new Options(Paths.get(path), store.getBlockSize()));
         } catch (IOException ioe) {
-            throw new PiauiDBException();
+            throw new PiauiDBException("Cannot retrieve block size!");
         }
     }
 
